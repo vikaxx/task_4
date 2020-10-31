@@ -1,0 +1,35 @@
+для выборки всех преподавателей на курсах, 
+у которых учатся больше 2000 студентов;
+
+SELECT t.id AS id_teacher, c.id AS id_course,
+COUNT(m.id_student) AS quantity_students
+FROM teacher t 
+JOIN course c ON t.id = c.id_teacher
+JOIN marks m ON c.id = m.id_course
+GROUP BY c.id HAVING quantity_students > 2000;
+
+для выборки студентов, у которых по курсу 
+'Programming' оценка > 4, и отсортировать их по фамилии, имени;
+
+SELECT s.*, c.course_title AS course, 
+m.mark AS mark FROM student s JOIN
+marks m ON s.id = m.id_student JOIN
+course c ON c.id = m.id_course 
+WHERE c.course_title = 'Programming' 
+AND m.mark > 4
+ORDER BY s.first_name, s.last_name;
+
+запрос, который выведет количество отличников, 
+количество студентов и преподавателя в каждой группе.
+
+SELECT c.id AS id_course, t.id AS id_teacher, 
+COUNT(m.id_student) AS quantity_students, 
+SUM(m.mark=5) AS a_levels FROM student s JOIN
+marks m ON s.id = m.id_student JOIN
+course c ON c.id = m.id_course JOIN
+teacher t ON t.id = c.id_teacher 
+JOIN student_group sg ON sg.id = s.id_group
+GROUP BY c.id 
+
+
+
